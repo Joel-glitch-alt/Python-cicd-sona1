@@ -1,14 +1,9 @@
 pipeline {
     agent any
 
-    tools {
-        // This should match the name in Jenkins > Global Tool Configuration
-        sonarQubeScanner 'sona-scanner'
-    }
-
     environment {
-        // This should match the name defined in Jenkins > Configure System > SonarQube servers
-        SONARQUBE = 'sonar-server'
+       // SCANNER_HOME = tool 'sonar-scanner' // Jenkins > Global Tool Configuration > SonarScanner name
+        SONARQUBE = 'sonar-server'         // Jenkins > Configure System > SonarQube server name
     }
 
     stages {
@@ -46,11 +41,10 @@ pipeline {
             steps {
                 withSonarQubeEnv("${SONARQUBE}") {
                     sh '''
-                        sonar-scanner \
-                          -Dsonar.projectKey=my_project \
-                          -Dsonar.projectName="Python-Sona-Project" \
-                          -Dsonar.sources=./src \
-                          -Dsonar.language=py \
+                        ${SCANNER_HOME}/bin/sonar-scanner \
+                          -Dsonar.projectKey=python_cicd_sona1 \
+                          -Dsonar.projectName="Python Sonar Project" \
+                          -Dsonar.sources=. \
                           -Dsonar.sourceEncoding=UTF-8
                     '''
                 }
