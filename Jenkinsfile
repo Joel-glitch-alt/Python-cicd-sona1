@@ -6,10 +6,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                    docker run --rm -v "${WORKSPACE}:/app" -w /app python:3.11-slim /bin/bash -c "
-                        pip install -r requirements.txt &&
-                        python index.py
-                    "
+                      Welcome to Python in Docker!
+                      This is a simple Jenkins pipeline that runs a Python script inside a Docker container.
+                        The script will print 'Hello, World!' to the console.
                     """
                 }
             }
