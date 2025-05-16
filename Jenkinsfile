@@ -2,26 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build Docker Image') {
+        stage('Run Python in Docker') {
             steps {
                 script {
-                    dockerImage = docker.build("my-python-app:${env.BUILD_ID}")
-                }
-            }
-        }
-
-        stage('Run Python Script') {
-            steps {
-                script {
-                    dockerImage.inside {
-                        sh 'python index.py'
-                    }
+                    // Run python:3.11-slim container and mount workspace
+                    sh """
+                    docker run --rm -v "$PWD":/app -w /app python:3.11-slim /bin/bash -c "
+                        pip install -r requirements.txt &&
+                        python index.py
+                    "
+                    """
                 }
             }
         }
