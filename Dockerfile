@@ -1,14 +1,16 @@
-# Use official Python image from Docker Hub
-FROM python:3.11-slim
+# Use Python image
+FROM python:3.8-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy your script and dependencies
+# Copy files
 COPY index.py /app/
+COPY requirements.txt /app/  
+# Copy the rest of the files
 
-# (Optional) Install any dependencies here
- RUN pip install -r requirements.txt
+# Install dependencies if any
+RUN test -f requirements.txt && pip install -r requirements.txt || echo "No requirements to install"
 
-# Command to run your Python script
+# Run the script
 CMD ["python", "index.py"]
