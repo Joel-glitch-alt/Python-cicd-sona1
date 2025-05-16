@@ -37,19 +37,26 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv("${SONARQUBE}") {
-                    sh '''
-                        ${SCANNER_HOME}/bin/sonar-scanner \
-                          -Dsonar.projectKey=python_cicd_sona1 \
-                          -Dsonar.projectName="Python Sonar Project" \
-                          -Dsonar.sources=. \
-                          -Dsonar.sourceEncoding=UTF-8
-                    '''
-                }
-            }
+                stage('SonarQube Analysis') {
+    agent {
+        docker {
+            image 'your-custom/python-sonar-image'
+            reuseNode true
         }
+    }
+    steps {
+        withSonarQubeEnv("${SONARQUBE}") {
+            sh '''
+                sonar-scanner \
+                  -Dsonar.projectKey=python_cicd_sona1 \
+                  -Dsonar.projectName="Python Sonar Project" \
+                  -Dsonar.sources=. \
+                  -Dsonar.sourceEncoding=UTF-8
+            '''
+        }
+    }
+}
+
 
         stage('Quality Gate') {
             steps {
