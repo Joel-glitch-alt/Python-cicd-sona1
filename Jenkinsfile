@@ -6,9 +6,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                      Welcome to Python in Docker!
-                      This is a simple Jenkins pipeline that runs a Python script inside a Docker container.
-                        The script will print 'Hello, World!' to the console.
+                      echo "Welcome to Python in Docker!"
+                      echo "This is a simple Jenkins pipeline that runs a Python script inside a Docker container."
+                      echo "The script will print 'Hello, World!' to the console."
                     """
                 }
             }
